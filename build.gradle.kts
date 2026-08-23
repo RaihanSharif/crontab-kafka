@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("application")
 }
 
 group = "org.cron.raihan"
@@ -10,11 +11,10 @@ repositories {
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:6.0.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation("org.quartz-scheduler:quartz:2.5.2")
+    implementation("org.slf4j:slf4j-simple:2.0.18")
 }
 
-tasks.test {
-    useJUnitPlatform()
+application {
+    mainClass.set("Main")
 }
