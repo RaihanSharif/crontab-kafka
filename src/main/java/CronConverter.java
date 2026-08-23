@@ -3,12 +3,13 @@ import javax.swing.table.JTableHeader;
 public class CronConverter {
 
     public static String toQuartzCron(String unixCron) {
-        String [] fields = unixCron.trim().split("\\s+");
+        String[] fields = unixCron.trim().split("\\s+");
 
         if (fields.length != 5) {
             throw new IllegalArgumentException(
-                    "Expected 5 fields in cron expression, got: " + fields.length);
+                    "Expected 5 fields in cron expression, got " + fields.length + ": " + unixCron);
         }
+
         String minute = fields[0];
         String hour = fields[1];
         String dayOfMonth = fields[2];
@@ -23,6 +24,6 @@ public class CronConverter {
             dayOfMonth = "?";
         }
 
-        return String.join(" ", minute, hour, dayOfMonth, month, dayOfWeek);
+        return String.join(" ", "0", minute, hour, dayOfMonth, month, dayOfWeek);
     }
 }
