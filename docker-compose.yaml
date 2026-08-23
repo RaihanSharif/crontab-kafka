@@ -1,0 +1,6 @@
+services:
+  cron-scheduler:
+    build: .
+    volumes:
+      - ./src/main/resources/crontab.txt:/app/crontab.txt
+    entrypoint: ["java", "-jar", "app.jar", "/app/crontab.txt"]
