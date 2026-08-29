@@ -18,10 +18,10 @@ public class CronConverter {
 
         if (dayOfMonth.equals("*") && dayOfWeek.equals("*")) {
             dayOfWeek = "?";
-        } else if (!dayOfMonth.equals("*") && dayOfWeek.equals("*")) {
-            dayOfWeek = "?";
-        } else if (dayOfMonth.equals("*") && !dayOfWeek.equals("*")) {
+        } else if (dayOfMonth.equals("*")) {
             dayOfMonth = "?";
+        } else if (dayOfWeek.equals("*")) {
+            dayOfWeek = "?";
         }
 
         return String.join(" ", "0", minute, hour, dayOfMonth, month, dayOfWeek);
