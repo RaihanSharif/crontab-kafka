@@ -12,7 +12,7 @@ public class SchedulerSetup {
                     .withSchedule(CronScheduleBuilder.cronSchedule(quartzCron))
                     .build();
 
-            JobDetail job = JobBuilder.newJob(JobLogger.class)
+            JobDetail job = JobBuilder.newJob(CronJob.class)
                     .withIdentity("Job" + jobNumber, "group1")
                     .usingJobData("lineNum", jobNumber)
                     .build();

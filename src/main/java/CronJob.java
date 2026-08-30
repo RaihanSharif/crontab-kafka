@@ -3,7 +3,7 @@ import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-public class JobLogger implements Job {
+public class CronJob implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {

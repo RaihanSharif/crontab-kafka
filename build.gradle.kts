@@ -14,6 +14,14 @@ repositories {
 dependencies {
     implementation("org.quartz-scheduler:quartz:2.5.2")
     implementation("org.slf4j:slf4j-simple:2.0.18")
+    implementation("org.apache.kafka:kafka-clients:4.1.2")
+}
+
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
+    }
 }
 
 application {
