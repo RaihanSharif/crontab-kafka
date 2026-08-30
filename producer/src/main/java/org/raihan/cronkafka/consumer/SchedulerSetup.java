@@ -1,3 +1,5 @@
+package org.raihan.cronkafka.consumer;
+
 import org.quartz.*;
 
 public class SchedulerSetup {
@@ -12,7 +14,7 @@ public class SchedulerSetup {
                     .withSchedule(CronScheduleBuilder.cronSchedule(quartzCron))
                     .build();
 
-            JobDetail job = JobBuilder.newJob(CronJob.class)
+            JobDetail job = JobBuilder.newJob(KafkaJobPublisher.class)
                     .withIdentity("Job" + jobNumber, "group1")
                     .usingJobData("lineNum", jobNumber)
                     .build();
