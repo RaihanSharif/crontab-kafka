@@ -1,4 +1,4 @@
-package org.raihan.cronkafka.consumer;
+package org.raihan.cronkafka.producer;
 
 import java.io.IOException;
 import java.nio.file.Files;

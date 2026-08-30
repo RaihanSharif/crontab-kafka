@@ -1,4 +1,4 @@
-package org.raihan.cronkafka.consumer;
+package org.raihan.cronkafka.producer;
 
 import org.quartz.*;
 
