@@ -5,24 +5,20 @@ plugins {
 }
 
 group = "org.raihan.cronkafka"
+version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    implementation(project(":common"))
     implementation("org.quartz-scheduler:quartz:2.5.2")
-    implementation("org.slf4j:slf4j-simple:2.0.18")
     implementation("org.apache.kafka:kafka-clients:4.1.2")
-}
-
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(25))
-    }
+    implementation("org.slf4j:slf4j-simple:2.0.18")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.22.2")
 }
 
 application {
-    mainClass.set("Main")
+    mainClass.set("org.raihan.cronkafka.producer.Main")
 }

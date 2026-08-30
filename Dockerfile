@@ -12,7 +12,7 @@ COPY gradlew ./
 RUN ./gradlew dependencies --no-daemon || true
 
 # Now copy the actual source and build the fat jar.
-COPY src ./src
+COPY producer/src ./src
 
 RUN ./gradlew shadowJar --no-daemon
 
