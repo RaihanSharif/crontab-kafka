@@ -1,2 +1,2 @@
-* * * * *
-15 * * * *
+* * * * * echo "every minute"
+*/15 * * * * echo "every 15 minutes"
