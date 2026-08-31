@@ -10,6 +10,9 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.raihan.cronkafka.common.Job;
 import org.raihan.cronkafka.common.KafkaConfig;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.Duration;
 import java.util.List;
 import java.util.Properties;
@@ -31,12 +34,38 @@ public class ConsumerMain {
                 for (ConsumerRecord<String, String> record : records) {
                     try {
                         Job job = mapper.readValue(record.value(), Job.class);
-                        System.out.println("Running job " + job.lineNum());
+                        System.out.println("Running job " + job.lineNum() + ": " + job.command());
+                        runCommand(job);
+
                     } catch (JsonProcessingException e) {
                         System.err.println("Skipping malformed message at offset " + record.offset() + ": " + e.getMessage());
                     }
                 }
             }
+        }
+    }
+
+    private static void runCommand(Job job) {
+        try {
+            ProcessBuilder pb = new ProcessBuilder("sh", "-c", job.command());
+            pb.redirectErrorStream(true); // merge stderr into stdout so you see both in one stream
+            Process process = pb.start();
+
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println("[job " + job.lineNum() + "] " + line);
+                }
+            }
+
+            int exitCode = process.waitFor();
+            System.out.println("Job " + job.lineNum() + " exited with code " + exitCode);
+
+        } catch (IOException e) {
+            System.err.println("Failed to start command for job " + job.lineNum() + ": " + e.getMessage());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.err.println("Interrupted while waiting for job " + job.lineNum());
         }
     }
 }
