@@ -47,7 +47,8 @@ services:
       context: .
       dockerfile: producer/Dockerfile
     depends_on:
-      - kafka1
+      kafka1:
+        condition: service_healthy # waits for kafka1 broker before starting
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka1:19092
     volumes:
@@ -59,7 +60,8 @@ services:
       context: .
       dockerfile: consumer/Dockerfile
     depends_on:
-      - kafka1
+      kafka1:
+        condition: service_healthy # wait for broker
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka1:19092
 
@@ -68,7 +70,8 @@ services:
       context: .
       dockerfile: consumer/Dockerfile
     depends_on:
-      - kafka1
+      kafka1:
+        condition: service_healthy # wait for broker
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka1:19092
 
@@ -80,4 +83,5 @@ services:
     environment:
       KAFKA_BROKERCONNECT: kafka1:19092
     depends_on:
-      - kafka1
+      kafka1:
+        condition: service_healthy # wait for broker
