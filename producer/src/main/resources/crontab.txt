@@ -1,2 +1,4 @@
 * * * * * echo "every minute"
 */15 * * * * echo "every 15 minutes"
+@cluster cluster-a * * * * * echo "hello from A"
+@cluster cluster-b * * * * * echo "hello from B"

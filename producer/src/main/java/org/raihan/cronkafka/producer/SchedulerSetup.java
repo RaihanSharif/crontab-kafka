@@ -25,6 +25,7 @@ public class SchedulerSetup {
                 .withIdentity("Job" + jobNumber, "group1")
                 .usingJobData("lineNum", jobNumber)
                 .usingJobData("command", entry.command())
+                .usingJobData("cluster", entry.cluster())
                 .build();
 
         scheduler.scheduleJob(job, trigger);

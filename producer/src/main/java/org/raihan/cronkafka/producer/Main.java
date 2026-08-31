@@ -14,13 +14,6 @@ import java.util.concurrent.ExecutionException;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-
-        // run with ./gradlew run --args="path/to/crontab.txt"
-        List<String> lines = CrontabFileReader.read(args[0]);
-
-        Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-        SchedulerSetup.scheduleAll(scheduler, lines);
-
         Properties adminProps = new Properties();
         adminProps.setProperty(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG,
                 KafkaConfig.bootstrapServers());
@@ -36,6 +29,14 @@ public class Main {
                 throw e;
             }
         }
+
+        // run with ./gradlew run --args="path/to/crontab.txt"
+        List<String> lines = CrontabFileReader.read(args[0]);
+
+        Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+        SchedulerSetup.scheduleAll(scheduler, lines);
+
+
         scheduler.start();
 
     }
