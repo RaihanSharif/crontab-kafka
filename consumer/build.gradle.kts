@@ -17,3 +17,9 @@ dependencies {
 application {
     mainClass.set("org.raihan.cronkafka.consumer.ConsumerMain")
 }
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
