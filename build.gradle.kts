@@ -6,8 +6,10 @@ plugins {
 
 group = "org.raihan.cronkafka"
 
-repositories {
-    mavenCentral()
+allprojects {
+    repositories {
+        mavenCentral()
+    }
 }
 
 dependencies {

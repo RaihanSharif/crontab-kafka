@@ -7,9 +7,6 @@ plugins {
 group = "org.raihan.cronkafka"
 version = "1.0-SNAPSHOT"
 
-repositories {
-    mavenCentral()
-}
 dependencies {
     implementation(project(":common"))
     implementation("org.apache.kafka:kafka-clients:4.1.2") // match producer's version
