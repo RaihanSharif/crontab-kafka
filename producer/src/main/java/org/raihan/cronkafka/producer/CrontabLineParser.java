@@ -7,7 +7,8 @@ public class CrontabLineParser {
     public static CrontabEntry parse(String line) {
         String trimmed = line.trim();
 
-        if (!trimmed.startsWith("@cluster")) {
+        if (trimmed.startsWith("@cluster ")) {
+
             return parseClusteredLine(trimmed);
         }
 

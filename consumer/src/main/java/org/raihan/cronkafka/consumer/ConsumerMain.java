@@ -21,14 +21,15 @@ public class ConsumerMain {
     public static void main(String[] args) {
         Properties props = new Properties();
         props.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaConfig.bootstrapServers());
-        props.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "job-consumers");       // SAME group id for both instances
+        props.setProperty(ConsumerConfig.GROUP_ID_CONFIG, System.getenv("KAFKA_GROUP_ID"));       // SAME group id for both instances
         props.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         props.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         props.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
+        String topic = System.getenv("KAFKA_TOPIC");
         ObjectMapper mapper = new ObjectMapper();
         try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props)) {
-            consumer.subscribe(List.of("jobs"));
+            consumer.subscribe(List.of(topic));
             while (true) {
                 ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(500));
                 for (ConsumerRecord<String, String> record : records) {

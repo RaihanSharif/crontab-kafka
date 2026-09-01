@@ -33,20 +33,41 @@ public class KafkaJobPublisher implements org.quartz.Job {
         JobDataMap dataMap = context.getJobDetail().getJobDataMap();
         int lineNum = dataMap.getInt("lineNum");
         String command = dataMap.getString("command"); // pass this through from crontab parsing
+        String cluster = dataMap.getString("cluster");
+        String topic = topicForCluster(cluster);
 
         String jobId = UUID.randomUUID().toString();
+
         Job job = new Job(jobId, lineNum, command, Instant.now().toString());
 
         try {
             String json = mapper.writeValueAsString(job);
             ProducerRecord<String, String> record =
-                    new ProducerRecord<>("jobs", jobId, json); // key = UUID → drives partition hash
+                    new ProducerRecord<>(topic, jobId, json); // key = UUID → drives partition hash
+
             producer.send(record, (metadata, exception) -> {
-                if (exception != null) exception.printStackTrace();
-                else System.out.println("Published job " + jobId + " to partition " + metadata.partition());
+                if (exception != null) {
+                    exception.printStackTrace();
+                } else {
+                    System.out.println(
+                            "Published job " + jobId +
+                                    " to " + topic +
+                                    " partition " + metadata.partition()
+                    );
+                }
             });
         } catch (Exception e) {
             throw new JobExecutionException(e);
         }
+    }
+
+    private static String topicForCluster(String cluster) {
+        return switch (cluster) {
+            case "default" -> "jobs";
+            case "cluster-a" -> "jobs-cluster-a";
+            case "cluster-b" -> "jobs-cluster-b";
+            default -> throw new IllegalArgumentException(
+                    "Unknown cluster: " + cluster);
+        };
     }
 }

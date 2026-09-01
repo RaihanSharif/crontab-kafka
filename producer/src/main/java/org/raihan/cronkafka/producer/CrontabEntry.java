@@ -6,6 +6,7 @@ public record CrontabEntry(
         String cluster
 ) {
     public CrontabEntry(String cronExpression, String command) {
+
         this(cronExpression, command, "default");
     }
 }

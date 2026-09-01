@@ -20,7 +20,12 @@ public class Main {
 
         try (AdminClient admin = AdminClient.create(adminProps)) {
             NewTopic topic = new NewTopic("jobs", 2, (short) 1);
-            admin.createTopics(List.of(topic)).all().get();
+            NewTopic clusterATopic =
+                    new NewTopic("jobs-cluster-a", 2, (short) 1);
+            NewTopic clusterBTopic =
+                    new NewTopic("jobs-cluster-b", 2, (short) 1);
+
+            admin.createTopics(List.of(topic, clusterATopic, clusterBTopic)).all().get();
             System.out.println("Created topic 'jobs'");
         } catch (ExecutionException e) {
             if (e.getCause() instanceof TopicExistsException) {
